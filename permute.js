@@ -1,38 +1,37 @@
-// call the 'split()' function, providing an array as an argument, and all 
-// possible combinations of the items within the array will be returned
-// WARNING: algorithm is incredibly ineffecient beyond array lengths of about 10;
-// expect runtime of >60 seconds!!!
+function permute (ar, depth) { 
+  let results;
 
-function split (ar) {
-  if (ar.length != 1){
-    //split the array and permute each half
-    const ar1 = ar.slice(0, Math.floor(ar.length/2));
-    const ar2 = ar.slice(Math.floor(ar.length/2), ar.length);
-
-    return permute(split(ar1), split(ar2));
+  let lengths = [];
+  for (let i=0; i<depth; i++){
+    lengths.push(Math.floor(Math.random()*ar.length+1));
   }
 
-  return [ar];
-}
-
-function permute (ar1, ar2) { 
-
-  let possibilities = [];
+  results = lengths.map(lngth => randomize(ar, lngth, depth)).flat();
   
-  mergeArray(ar1, ar2).forEach(poss => {
-    possibilities.push(poss);
+  return results.filter((result, index) => { //filters duplicates
+     return results.findIndex(res => arrMatch(res, result)) == index;
   });
 
-  for (let i=0; i<ar1.length; i++){
-    for (let j=0; j<ar2.length; j++){
-      possibilities.push(mergeArray(ar1[i], ar2[j]));
+}
+
+function randomize (ar, lngth, depth) { //randomizes array order
+    
+  let randomed = [];
+  
+  for (let i=0; i<depth; i++){
+    let tempAr = [...ar];
+    randomed[i] = [];
+    while (randomed[i].length < lngth){
+      randomed[i].push(tempAr.splice(Math.floor(Math.random()*tempAr.length), 1));
     }
   }
-
-  return possibilities;
+  return randomed.map(arr => arr.flat());
 }
 
-
-function mergeArray (ar1, ar2) {
-  return [ar1, ar2].flat();
+function arrMatch (ar1, ar2) {
+  return ar1.length == ar2.length?
+    ar1.every(el => ar2.includes(el)):
+    false;
 }
+
+console.log(permute([1,2,3,4,5,6], 100))
