@@ -1,5 +1,7 @@
 // call the 'split()' function, providing an array as an argument, and all 
 // possible combinations of the items within the array will be returned
+// WARNING: algorithm is incredibly ineffecient beyond array lengths of about 10;
+// expect runtime of >60 seconds!!!
 
 function split (ar) {
   if (ar.length != 1){
