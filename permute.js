@@ -1,3 +1,6 @@
+// call the 'split()' function, providing an array as an argument, and all 
+// possible combinations of the items within the array will be returned
+
 function split (ar) {
   if (ar.length != 1){
     //split the array and permute each half
